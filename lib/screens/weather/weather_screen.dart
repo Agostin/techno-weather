@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:techno_weather/components/loader.dart';
 import 'package:techno_weather/components/current_weather_widget.dart';
+import 'package:techno_weather/components/weather_forecast_widget.dart';
+import 'package:techno_weather/models/WeatherForecast.dart';
 import 'package:techno_weather/models/WeatherResult.dart';
 import 'package:techno_weather/services/openweathermap.dart';
 
@@ -16,7 +18,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   bool isLoading = false;
   String apiError = '';
   WeatherResult currentWeatherResults;
-  dynamic fiveDaysForecastResults;
+  List<WeatherForecast> weatherForecast;
 
   @override
   Widget build(BuildContext context) {
@@ -48,33 +50,58 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           setState(() => selectedCity = value);
                         },
                       ),
-                      ElevatedButton(
-                          onPressed: () async {
-                            if (_weatherForm.currentState.validate()) {
-                              setState(() => isLoading = true);
-                              try {
-                                WeatherResult result =
-                                    await OpenWeatherMapService()
-                                        .fetchWeatherFromLocation(selectedCity);
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 10,
+                        ),
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              if (_weatherForm.currentState.validate()) {
+                                setState(() => isLoading = true);
+                                try {
+                                  WeatherResult result =
+                                      await OpenWeatherMapService()
+                                          .fetchWeatherFromLocation(
+                                              selectedCity);
 
-                                if (result == null) {
-                                  setState(() => apiError =
-                                      'Oops! Qualcosa è andato storto');
-                                } else {
-                                  setState(
-                                      () => currentWeatherResults = result);
+                                  if (result == null) {
+                                    setState(() => apiError =
+                                        'Oops! Qualcosa è andato storto');
+                                  } else {
+                                    setState(
+                                        () => currentWeatherResults = result);
+                                  }
+
+                                  List<WeatherForecast> _forecast =
+                                      await OpenWeatherMapService()
+                                          .fetchForecastFromLocation(
+                                              selectedCity);
+
+                                  if (result == null) {
+                                    setState(() => apiError =
+                                        'Previsioni a 5 giorni non disponibili');
+                                  } else {
+                                    setState(() => weatherForecast = _forecast);
+                                  }
+                                } finally {
+                                  setState(() => isLoading = false);
                                 }
-                              } finally {
-                                setState(() => isLoading = false);
                               }
-                            }
-                          },
-                          child: Text('Controlla meteo')),
-                      SizedBox(
-                        height: 200,
-                        child: CurrentWeatherWidget(
-                            location: selectedCity.trim(),
-                            groupedInfo: currentWeatherResults),
+                            },
+                            child: Text('Controlla meteo')),
+                      ),
+                      Container(
+                        child: currentWeatherResults == null
+                            ? Container()
+                            : CurrentWeatherWidget(
+                                location: selectedCity,
+                                groupedInfo: currentWeatherResults),
+                      ),
+                      Container(
+                        child: weatherForecast == null
+                            ? Container()
+                            : WeatherForecastWidget(forecast: weatherForecast),
                       ),
                     ],
                   )),

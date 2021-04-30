@@ -1,5 +1,8 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:techno_weather/models/WeatherForecast.dart';
+import 'package:techno_weather/models/WeatherMainInfo.dart';
+import 'package:techno_weather/models/WeatherRecord.dart';
 import 'package:techno_weather/models/WeatherResult.dart';
 
 class OpenWeatherMapService {
@@ -33,12 +36,29 @@ class OpenWeatherMapService {
     }
   }
 
-  fetch5dForecastFromLocation(String location) async {
+  List<WeatherForecast> _parseForecastResponse(String apiResponseBody) {
+    final dynamic parsedBody = jsonDecode(apiResponseBody);
+    final List<dynamic> jsonForecast = parsedBody['list'];
+
+    return jsonForecast
+        .map((json) => WeatherForecast(
+            dateInSeconds: json['dt'] as int,
+            forecast: WeatherResult(
+                main: WeatherMainInfo.fromJson(json['main']),
+                weather: json['weather']
+                    .map<WeatherRecord>((w) => WeatherRecord.fromJson(w))
+                    .toList())))
+        .toList();
+  }
+
+  fetchForecastFromLocation(String location) async {
     try {
       dynamic uriResponse = await client.get(Uri.parse(
           '${this.baseAPIPath}/forecast?$apiOptions&q=$location&appid=$apiKey'));
-      print(uriResponse.body);
-      return _parseURIResponse(uriResponse);
+
+      return uriResponse.statusCode == 200
+          ? _parseForecastResponse(uriResponse.body)
+          : [];
     } finally {
       client.close();
     }
