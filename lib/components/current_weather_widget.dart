@@ -12,7 +12,7 @@ class CurrentWeatherWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    final WeatherMainInfo mainInfo = this.groupedInfo.main;
+    final WeatherMainInfo mainInfo = this.groupedInfo?.main;
     final List<WeatherRecord> weatherDetails = this.groupedInfo.weather;
 
     return Container(

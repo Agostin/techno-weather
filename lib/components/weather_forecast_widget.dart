@@ -8,9 +8,17 @@ class WeatherForecastWidget extends StatelessWidget {
 
   WeatherForecastWidget({this.forecast});
 
+  List<WeatherForecast> _extract5DayForecast(List<WeatherForecast> forecast) {
+    final List<WeatherForecast> _list = forecast;
+    _list.removeWhere((element) => forecast.indexOf(element) % 8 != 0);
+    return _list;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    final List<WeatherForecast> dailyForecast =
+        _extract5DayForecast(this.forecast);
 
     return Row(
       children: <Widget>[
@@ -20,9 +28,9 @@ class WeatherForecastWidget extends StatelessWidget {
                 child: ListView.separated(
                   padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   separatorBuilder: (_, index) => Divider(),
-                  itemCount: this.forecast.length,
+                  itemCount: dailyForecast.length,
                   itemBuilder: (_, index) =>
-                      ForecastListTileWidget(this.forecast[index]),
+                      ForecastListTileWidget(dailyForecast[index]),
                 )))
       ],
     );
