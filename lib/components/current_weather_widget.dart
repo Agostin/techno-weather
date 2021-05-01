@@ -24,51 +24,56 @@ class CurrentWeatherWidget extends StatelessWidget {
             Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          'IL METEO DI',
-                          style: TextStyle(fontSize: 16),
-                        )),
-                    Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          this.location.toUpperCase(),
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 24),
-                        ))
-                  ],
+                Expanded(
+                  flex: 4,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            'IL METEO DI',
+                            style: TextStyle(fontSize: 16),
+                          )),
+                      Container(
+                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          child: Text(
+                            this.location.toUpperCase(),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold, fontSize: 24),
+                          ))
+                    ],
+                  ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Image.network(weatherDetails[0].icon),
-                    )
-                  ],
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        child: Image.network(weatherDetails[0].icon),
+                      )
+                    ],
+                  ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
+                Expanded(
+                    flex: 4,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                            child: Text(
                           '${mainInfo.temp}°C',
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 42),
                         )),
-                    Container(
-                        padding: EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
+                        Container(
+                            child: Text(
                           weatherDetails[0].description,
                           style: TextStyle(fontSize: 16),
                         )),
-                  ],
-                ),
+                      ],
+                    )),
               ],
             )
           ],

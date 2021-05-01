@@ -26,12 +26,11 @@ class WeatherForecastWidget extends StatelessWidget {
             child: SizedBox(
                 height: size.height * 0.5,
                 child: ListView.separated(
-                  padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   separatorBuilder: (_, index) => Divider(),
                   itemCount: dailyForecast.length,
                   itemBuilder: (_, index) =>
                       ForecastListTileWidget(dailyForecast[index]),
-                )))
+                ))),
       ],
     );
   }

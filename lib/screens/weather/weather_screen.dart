@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:techno_weather/blocs/appplication_bloc.dart';
 import 'package:techno_weather/components/loader.dart';
-import 'package:techno_weather/components/current_weather_widget.dart';
-import 'package:techno_weather/components/weather_forecast_widget.dart';
+import 'package:techno_weather/components/weather_results_area.dart';
 import 'package:techno_weather/models/WeatherForecast.dart';
 import 'package:techno_weather/models/WeatherResult.dart';
-import 'package:techno_weather/services/openweathermap.dart';
 
 class WeatherScreen extends StatefulWidget {
   @override
@@ -12,17 +12,15 @@ class WeatherScreen extends StatefulWidget {
 }
 
 class _WeatherScreenState extends State<WeatherScreen> {
-  GlobalKey<FormState> _weatherForm = GlobalKey();
-
+  String searchParam;
   String selectedCity;
   bool isLoading = false;
-  String apiError = '';
   WeatherResult currentWeatherResults;
   List<WeatherForecast> weatherForecast;
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
 
     return Scaffold(
         appBar: AppBar(
@@ -33,78 +31,70 @@ class _WeatherScreenState extends State<WeatherScreen> {
           ),
         ),
         body: Container(
+          color: Colors.blueGrey,
           padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
           child: isLoading
               ? Loading()
-              : Form(
-                  key: _weatherForm,
-                  child: Column(
-                    children: [
-                      TextFormField(
-                        validator: (val) => val.isEmpty
-                            ? 'Digita un nome valido di una località'
-                            : null,
-                        decoration:
-                            InputDecoration(hintText: 'Cerca località...'),
-                        onChanged: (value) {
-                          setState(() => selectedCity = value);
-                        },
-                      ),
-                      Container(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 10,
-                        ),
-                        child: ElevatedButton(
-                            onPressed: () async {
-                              if (_weatherForm.currentState.validate()) {
-                                setState(() => isLoading = true);
-                                try {
-                                  WeatherResult result =
-                                      await OpenWeatherMapService()
-                                          .fetchWeatherFromLocation(
-                                              selectedCity);
-
-                                  if (result == null) {
-                                    setState(() => apiError =
-                                        'Oops! Qualcosa è andato storto');
-                                  } else {
-                                    setState(
-                                        () => currentWeatherResults = result);
-                                  }
-
-                                  List<WeatherForecast> _forecast =
-                                      await OpenWeatherMapService()
-                                          .fetchForecastFromLocation(
-                                              selectedCity);
-
-                                  if (result == null) {
-                                    setState(() => apiError =
-                                        'Previsioni a 5 giorni non disponibili');
-                                  } else {
-                                    setState(() => weatherForecast = _forecast);
-                                  }
-                                } finally {
-                                  setState(() => isLoading = false);
-                                }
-                              }
+              : ListView(
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Material(
+                          elevation: 10.0,
+                          shadowColor: Colors.grey[700],
+                          borderRadius: BorderRadius.all(Radius.circular(8)),
+                          child: TextField(
+                            decoration: InputDecoration(
+                                filled: true,
+                                fillColor: Colors.white,
+                                hintText: 'Cerca località...',
+                                suffixIcon: Icon(Icons.search)),
+                            onChanged: (value) {
+                              setState(() {
+                                searchParam = value;
+                                applicationBloc.searchPlaces(searchParam);
+                              });
                             },
-                            child: Text('Controlla meteo')),
-                      ),
-                      Container(
-                        child: currentWeatherResults == null
-                            ? Container()
-                            : CurrentWeatherWidget(
-                                location: selectedCity,
-                                groupedInfo: currentWeatherResults),
-                      ),
-                      Container(
-                        child: weatherForecast == null
-                            ? Container()
-                            : WeatherForecastWidget(forecast: weatherForecast),
-                      ),
-                    ],
-                  )),
+                          )),
+                    ),
+                    Stack(
+                      children: [
+                        Container(
+                          height: 300,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              color: Colors.black.withOpacity(0.6),
+                              backgroundBlendMode: BlendMode.darken),
+                        ),
+                        Container(
+                          height: 300,
+                          child: applicationBloc.searchResult == null
+                              ? Container()
+                              : ListView.builder(
+                                  itemCount:
+                                      applicationBloc.searchResult.length,
+                                  itemBuilder: (_, index) {
+                                    return ListTile(
+                                      title: Text(
+                                        applicationBloc
+                                            .searchResult[index].placeName,
+                                        style: TextStyle(color: Colors.white),
+                                      ),
+                                      onTap: () => {
+                                        setState(() {
+                                          selectedCity = applicationBloc
+                                              .searchResult[index].placeName;
+                                          searchParam = '';
+                                        })
+                                      },
+                                    );
+                                  }),
+                        ),
+                        // Container(child: WeatherResultsArea())
+                      ],
+                    )
+                  ],
+                ),
         ));
   }
 }

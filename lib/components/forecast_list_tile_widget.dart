@@ -25,28 +25,50 @@ class ForecastListTileWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         child: ListTile(
+      dense: true,
       title: Row(
+        mainAxisSize: MainAxisSize.max,
         children: [
-          Column(
-            children: [Text(secondsToDateDay(this.info.dateInSeconds))],
-          ),
-          Column(
-            children: [Image.network(this.info.forecast.weather[0].icon)],
-          ),
-          Column(
-            children: [
-              Text(
-                '${this.info.forecast.main.tempMin}°C',
-                style: TextStyle(
-                    color: Colors.lightBlue, fontWeight: FontWeight.bold),
-              ),
-              Text(
-                '${this.info.forecast.main.tempMax}°C',
-                style:
-                    TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-              )
-            ],
-          ),
+          Expanded(
+              flex: 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Text(
+                    secondsToDateDay(this.info.dateInSeconds),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  )
+                ],
+              )),
+          Expanded(
+              flex: 3,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Column(children: [
+                    Text(
+                      '${this.info.forecast.main.tempMin}°C',
+                      style: TextStyle(
+                          color: Colors.lightBlue,
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      '${this.info.forecast.main.tempMax}°C',
+                      style: TextStyle(
+                          color: Colors.red,
+                          fontSize: 21,
+                          fontWeight: FontWeight.bold),
+                    )
+                  ])
+                ],
+              )),
+          Expanded(
+              flex: 2,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [Image.network(this.info.forecast.weather[0].icon)],
+              )),
         ],
       ),
     ));
