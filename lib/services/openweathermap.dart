@@ -23,7 +23,7 @@ class OpenWeatherMapService {
         main: WeatherMainInfo.fromJson(parsedBody['main']));
   }
 
-  fetchWeatherFromLocation(String location) async {
+  Future<WeatherResult> fetchWeatherFromLocation(String location) async {
     try {
       http.Response uriResponse = await client.get(Uri.parse(
           '${this.baseAPIPath}/weather?$apiOptions&q=$location&appid=$apiKey'));
@@ -51,7 +51,8 @@ class OpenWeatherMapService {
         .toList();
   }
 
-  fetchForecastFromLocation(String location) async {
+  Future<List<WeatherForecast>> fetchForecastFromLocation(
+      String location) async {
     try {
       dynamic uriResponse = await client.get(Uri.parse(
           '${this.baseAPIPath}/forecast?$apiOptions&q=$location&appid=$apiKey'));

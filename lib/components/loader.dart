@@ -1,14 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class Loading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: SpinKitPulse(
-        color: Colors.blueGrey,
-        size: 60.0,
-      ),
-    );
+    return Center(
+        child: CircularProgressIndicator(
+      backgroundColor: Colors.yellow[500],
+      strokeWidth: 2,
+    ));
   }
 }

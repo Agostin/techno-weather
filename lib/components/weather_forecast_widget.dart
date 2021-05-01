@@ -30,7 +30,7 @@ class WeatherForecastWidget extends StatelessWidget {
                   itemCount: dailyForecast.length,
                   itemBuilder: (_, index) =>
                       ForecastListTileWidget(dailyForecast[index]),
-                ))),
+                )))
       ],
     );
   }

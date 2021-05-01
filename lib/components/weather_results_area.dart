@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:techno_weather/components/loader.dart';
 import 'package:techno_weather/components/weather_forecast_widget.dart';
 import 'package:techno_weather/models/WeatherForecast.dart';
 import 'package:techno_weather/models/WeatherResult.dart';
@@ -15,21 +16,28 @@ class WeatherResultsArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Size size = MediaQuery.of(context).size;
+
     return Container(
-        child: ListView(
-      children: <Widget>[
-        Container(
-          child: currentWeatherResults == null
-              ? Container()
-              : CurrentWeatherWidget(
-                  location: selectedCity, groupedInfo: currentWeatherResults),
-        ),
-        Container(
-          child: weatherForecast == null
-              ? Container()
-              : WeatherForecastWidget(forecast: weatherForecast),
-        ),
-      ],
-    ));
+        height: 300,
+        width: double.infinity,
+        child: this.selectedCity == null
+            ? Loading()
+            : Stack(
+                children: <Widget>[
+                  Container(
+                    child: currentWeatherResults == null
+                        ? Container()
+                        : CurrentWeatherWidget(
+                            location: selectedCity,
+                            groupedInfo: currentWeatherResults),
+                  ),
+                  Container(
+                    child: weatherForecast == null
+                        ? Container()
+                        : WeatherForecastWidget(forecast: weatherForecast),
+                  ),
+                ],
+              ));
   }
 }
