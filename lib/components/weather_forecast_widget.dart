@@ -23,21 +23,23 @@ class WeatherForecastWidget extends StatelessWidget {
     return Container(
         width: double.infinity,
         height: size.height * .7,
-        child: Row(children: [
+        child: Column(mainAxisSize: MainAxisSize.max, children: [
           Expanded(
               child: Text(
             'Previsioni dei prossimi 5 giorni:',
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+            textAlign: TextAlign.start,
           )),
-          Expanded(
-              child: SizedBox(
-                  width: double.infinity,
-                  height: size.height * 0.5,
-                  child: ListView.builder(
-                    itemCount: dailyForecast.length,
-                    itemBuilder: (_, index) =>
-                        ForecastListTileWidget(dailyForecast[index]),
-                  )))
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+              height: size.height * .7,
+              child: ListView.builder(
+                itemCount: dailyForecast.length,
+                itemBuilder: (_, index) =>
+                    ForecastListTileWidget(dailyForecast[index]),
+              ))
         ]));
   }
 }
