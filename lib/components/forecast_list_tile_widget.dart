@@ -24,9 +24,8 @@ class ForecastListTileWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: ListTile(
-      dense: true,
-      title: Row(
+        child: Card(
+      child: Row(
         mainAxisSize: MainAxisSize.max,
         children: [
           Expanded(

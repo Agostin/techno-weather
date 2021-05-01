@@ -19,11 +19,11 @@ class WeatherResultsArea extends StatelessWidget {
     final Size size = MediaQuery.of(context).size;
 
     return Container(
-        height: 300,
+        height: size.height * .8,
         width: double.infinity,
         child: this.selectedCity == null
             ? Loading()
-            : Stack(
+            : ListView(
                 children: <Widget>[
                   Container(
                     child: currentWeatherResults == null
@@ -31,6 +31,9 @@ class WeatherResultsArea extends StatelessWidget {
                         : CurrentWeatherWidget(
                             location: selectedCity,
                             groupedInfo: currentWeatherResults),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
                   Container(
                     child: weatherForecast == null

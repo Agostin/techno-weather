@@ -47,6 +47,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
+    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
         appBar: AppBar(
@@ -60,32 +61,29 @@ class _WeatherScreenState extends State<WeatherScreen> {
             ? Loading()
             : Container(
                 color: Colors.blueGrey,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                padding: EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Material(
-                          elevation: 10.0,
-                          shadowColor: Colors.grey[700],
-                          borderRadius: BorderRadius.all(Radius.circular(8)),
-                          child: TextField(
-                            decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.white,
-                                hintText: 'Cerca località...',
-                                suffixIcon: Icon(Icons.search)),
-                            focusNode: _node,
-                            onChanged: (value) {
-                              setState(() {
-                                searchParam = value;
-                                if (searchParam.length >= 2) {
-                                  applicationBloc.searchPlaces(searchParam);
-                                }
-                              });
-                            },
-                          )),
-                    ),
+                    Material(
+                        elevation: 10.0,
+                        shadowColor: Colors.grey[700],
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        child: TextField(
+                          decoration: InputDecoration(
+                              filled: true,
+                              fillColor: Colors.white,
+                              hintText: 'Cerca località...',
+                              suffixIcon: Icon(Icons.search)),
+                          focusNode: _node,
+                          onChanged: (value) {
+                            setState(() {
+                              searchParam = value;
+                              if (searchParam.length >= 2) {
+                                applicationBloc.searchPlaces(searchParam);
+                              }
+                            });
+                          },
+                        )),
                     !locationHasBeenSelectd
                         ? Stack(
                             children: [
@@ -151,12 +149,16 @@ class _WeatherScreenState extends State<WeatherScreen> {
                               ),
                             ],
                           )
-                        : Container(
-                            child: WeatherResultsArea(
-                            selectedCity: selectedCity,
-                            weatherForecast: weatherForecast,
-                            currentWeatherResults: currentWeatherResults,
-                          )),
+                        : Column(children: [
+                            SizedBox(
+                              height: 30,
+                            ),
+                            WeatherResultsArea(
+                              selectedCity: selectedCity,
+                              weatherForecast: weatherForecast,
+                              currentWeatherResults: currentWeatherResults,
+                            )
+                          ]),
                   ],
                 ),
               ));

@@ -16,12 +16,11 @@ class CurrentWeatherWidget extends StatelessWidget {
     final List<WeatherRecord> weatherDetails = this.groupedInfo.weather;
 
     return Container(
+        padding: EdgeInsets.symmetric(vertical: 20),
         width: size.width,
-        child: Column(
-          mainAxisSize: MainAxisSize.max,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
+        child: Card(
+            elevation: 10,
+            child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
                 Expanded(
@@ -30,7 +29,8 @@ class CurrentWeatherWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 5, vertical: 20),
                           child: Text(
                             'IL METEO DI',
                             style: TextStyle(fontSize: 16),
@@ -75,8 +75,6 @@ class CurrentWeatherWidget extends StatelessWidget {
                       ],
                     )),
               ],
-            )
-          ],
-        ));
+            )));
   }
 }

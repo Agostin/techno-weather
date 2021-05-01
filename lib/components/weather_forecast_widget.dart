@@ -20,18 +20,24 @@ class WeatherForecastWidget extends StatelessWidget {
     final List<WeatherForecast> dailyForecast =
         _extract5DayForecast(this.forecast);
 
-    return Row(
-      children: <Widget>[
-        Expanded(
-            child: SizedBox(
-                height: size.height * 0.5,
-                child: ListView.separated(
-                  separatorBuilder: (_, index) => Divider(),
-                  itemCount: dailyForecast.length,
-                  itemBuilder: (_, index) =>
-                      ForecastListTileWidget(dailyForecast[index]),
-                )))
-      ],
-    );
+    return Container(
+        width: double.infinity,
+        height: size.height * .7,
+        child: Row(children: [
+          Expanded(
+              child: Text(
+            'Previsioni dei prossimi 5 giorni:',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+          )),
+          Expanded(
+              child: SizedBox(
+                  width: double.infinity,
+                  height: size.height * 0.5,
+                  child: ListView.builder(
+                    itemCount: dailyForecast.length,
+                    itemBuilder: (_, index) =>
+                        ForecastListTileWidget(dailyForecast[index]),
+                  )))
+        ]));
   }
 }
