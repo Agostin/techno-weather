@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:techno_weather/blocs/appplication_bloc.dart';
+import 'package:techno_weather/blocs/application_bloc.dart';
 import 'package:techno_weather/screens/weather/weather_screen.dart';
 
 void main() {

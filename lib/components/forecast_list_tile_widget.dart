@@ -31,11 +31,11 @@ class ForecastListTileWidget extends StatelessWidget {
           Expanded(
               flex: 5,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
                     secondsToDateDay(this.info.dateInSeconds),
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    textAlign: TextAlign.start,
+                    style: TextStyle(fontSize: 18, fontFamily: 'Raleway'),
                   )
                 ],
               )),
@@ -50,14 +50,16 @@ class ForecastListTileWidget extends StatelessWidget {
                       style: TextStyle(
                           color: Colors.lightBlue,
                           fontSize: 21,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Raleway'),
                     ),
                     Text(
                       '${this.info.forecast.main.tempMax}°C',
                       style: TextStyle(
                           color: Colors.red,
                           fontSize: 21,
-                          fontWeight: FontWeight.bold),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Raleway'),
                     )
                   ])
                 ],

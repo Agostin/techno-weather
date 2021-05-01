@@ -1,6 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:techno_weather/blocs/appplication_bloc.dart';
+import 'package:techno_weather/blocs/application_bloc.dart';
 import 'package:techno_weather/components/loader.dart';
 import 'package:techno_weather/components/weather_results_area.dart';
 import 'package:techno_weather/models/WeatherForecast.dart';
@@ -31,7 +33,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void _handleFocusChange() {
     if (_node.hasFocus) {
-      selectedCity = '';
       searchParam = '';
       locationHasBeenSelectd = false;
     }
@@ -47,7 +48,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
   @override
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
-    final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
         appBar: AppBar(
@@ -61,19 +61,22 @@ class _WeatherScreenState extends State<WeatherScreen> {
             ? Loading()
             : Container(
                 color: Colors.blueGrey,
-                padding: EdgeInsets.all(20.0),
+                padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 child: ListView(
                   children: [
                     Material(
-                        elevation: 10.0,
-                        shadowColor: Colors.grey[700],
-                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                        elevation: 15.0,
+                        shadowColor: Colors.grey[800],
+                        borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                        textStyle: TextStyle(fontFamily: 'Raleway'),
                         child: TextField(
+                          selectionHeightStyle: BoxHeightStyle.tight,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
                               hintText: 'Cerca località...',
-                              suffixIcon: Icon(Icons.search)),
+                              focusedBorder: InputBorder.none,
+                              suffixIcon: Icon(Icons.search_sharp)),
                           focusNode: _node,
                           onChanged: (value) {
                             setState(() {
@@ -84,6 +87,9 @@ class _WeatherScreenState extends State<WeatherScreen> {
                             });
                           },
                         )),
+                    SizedBox(
+                      height: 10,
+                    ),
                     !locationHasBeenSelectd
                         ? Stack(
                             children: [
@@ -91,7 +97,11 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                 height: selectedCity == null ? 0 : 300,
                                 width: double.infinity,
                                 decoration: BoxDecoration(
-                                    color: Colors.black.withOpacity(0.6),
+                                    color: Colors.black.withOpacity(
+                                        searchParam == null ||
+                                                searchParam.length == 0
+                                            ? 0
+                                            : 0.6),
                                     backgroundBlendMode: BlendMode.darken),
                               ),
                               Container(
@@ -108,7 +118,8 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                                   .searchResult[index]
                                                   .placeName,
                                               style: TextStyle(
-                                                  color: Colors.white),
+                                                  color: Colors.white,
+                                                  fontFamily: 'Raleway'),
                                             ),
                                             onTap: () async {
                                               setState(() {
@@ -141,7 +152,6 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                                       _weatherForecast;
                                                 }
                                                 isLoading = false;
-                                                selectedCity = '';
                                               });
                                             },
                                           );

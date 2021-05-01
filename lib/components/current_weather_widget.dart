@@ -15,6 +15,8 @@ class CurrentWeatherWidget extends StatelessWidget {
     final WeatherMainInfo mainInfo = this.groupedInfo?.main;
     final List<WeatherRecord> weatherDetails = this.groupedInfo.weather;
 
+    print('location: ${this.location}');
+
     return Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         width: size.width,
@@ -29,18 +31,20 @@ class CurrentWeatherWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Container(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 5, vertical: 20),
+                          padding: EdgeInsets.only(left: 5, top: 20),
                           child: Text(
-                            'IL METEO DI',
-                            style: TextStyle(fontSize: 16),
+                            'Il meteo di:',
+                            style:
+                                TextStyle(fontSize: 16, fontFamily: 'Raleway'),
                           )),
                       Container(
-                          padding: EdgeInsets.symmetric(horizontal: 5),
+                          padding: EdgeInsets.only(left: 5, bottom: 20),
                           child: Text(
                             this.location.toUpperCase(),
                             style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 24),
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                                fontFamily: 'Raleway'),
                           ))
                     ],
                   ),
@@ -65,12 +69,14 @@ class CurrentWeatherWidget extends StatelessWidget {
                             child: Text(
                           '${mainInfo.temp}°C',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 42),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 42,
+                              fontFamily: 'Raleway'),
                         )),
                         Container(
                             child: Text(
                           weatherDetails[0].description,
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, fontFamily: 'Raleway'),
                         )),
                       ],
                     )),

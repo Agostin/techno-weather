@@ -21,7 +21,7 @@ class WeatherResultsArea extends StatelessWidget {
     return Container(
         height: size.height * .8,
         width: double.infinity,
-        child: this.selectedCity == null
+        child: selectedCity == null
             ? Loading()
             : ListView(
                 children: <Widget>[
