@@ -15,9 +15,7 @@ class MyApp extends StatelessWidget {
       create: (context) => ApplicationBloc(),
       child: MaterialApp(
         title: 'Techno Weather',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: ThemeData(primarySwatch: Colors.blue, fontFamily: 'Raleway'),
         home: WeatherScreen(),
       ),
     );

@@ -35,7 +35,7 @@ class ForecastListTileWidget extends StatelessWidget {
                   Text(
                     secondsToDateDay(this.info.dateInSeconds),
                     textAlign: TextAlign.start,
-                    style: TextStyle(fontSize: 18, fontFamily: 'Raleway'),
+                    style: TextStyle(fontSize: 18),
                   )
                 ],
               )),
@@ -48,18 +48,18 @@ class ForecastListTileWidget extends StatelessWidget {
                     Text(
                       '${this.info.forecast.main.tempMin}°C',
                       style: TextStyle(
-                          color: Colors.lightBlue,
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Raleway'),
+                        color: Colors.lightBlue,
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
                       '${this.info.forecast.main.tempMax}°C',
                       style: TextStyle(
-                          color: Colors.red,
-                          fontSize: 21,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Raleway'),
+                        color: Colors.red,
+                        fontSize: 21,
+                        fontWeight: FontWeight.bold,
+                      ),
                     )
                   ])
                 ],

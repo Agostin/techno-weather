@@ -27,9 +27,9 @@ class WeatherForecastWidget extends StatelessWidget {
           Text(
             'Previsioni dei prossimi 5 giorni:',
             style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
-                fontFamily: 'Raleway'),
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
             textAlign: TextAlign.start,
           ),
           SizedBox(

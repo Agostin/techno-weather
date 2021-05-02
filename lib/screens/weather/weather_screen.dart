@@ -54,29 +54,51 @@ class _WeatherScreenState extends State<WeatherScreen> {
           backgroundColor: Colors.yellow[500],
           title: Text(
             'Techno Weather',
-            style: TextStyle(color: Colors.blueGrey),
+            style: TextStyle(color: Colors.black87),
           ),
         ),
         body: isLoading
             ? Loading()
             : Container(
-                color: Colors.blueGrey,
+                decoration: locationHasBeenSelectd
+                    ? BoxDecoration(color: Colors.blueAccent)
+                    : BoxDecoration(
+                        image: DecorationImage(
+                          colorFilter:
+                              ColorFilter.mode(Colors.grey, BlendMode.modulate),
+                          image: Image.asset(
+                                  'lib/assets/images/cloudy-sun-sky-bg.jpg')
+                              .image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
                 padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
                 child: ListView(
                   children: [
+                    locationHasBeenSelectd
+                        ? Container()
+                        : Container(
+                            padding: EdgeInsets.only(top: 15, bottom: 25),
+                            child: Text(
+                              'Vuoi conoscere il meteo dei prossimi giorni?',
+                              style: TextStyle(
+                                  color: Colors.grey[300], fontSize: 20),
+                            ),
+                          ),
                     Material(
                         elevation: 15.0,
                         shadowColor: Colors.grey[800],
                         borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                        textStyle: TextStyle(fontFamily: 'Raleway'),
                         child: TextField(
-                          selectionHeightStyle: BoxHeightStyle.tight,
                           decoration: InputDecoration(
                               filled: true,
                               fillColor: Colors.white,
-                              hintText: 'Cerca località...',
+                              hintText: 'Digita il nome della città',
                               focusedBorder: InputBorder.none,
                               suffixIcon: Icon(Icons.search_sharp)),
+                          style: TextStyle(
+                            fontSize: 20,
+                          ),
                           focusNode: _node,
                           onChanged: (value) {
                             setState(() {
@@ -114,12 +136,10 @@ class _WeatherScreenState extends State<WeatherScreen> {
                                         itemBuilder: (_, index) {
                                           return ListTile(
                                             title: Text(
-                                              applicationBloc
-                                                  .searchResult[index]
-                                                  .placeName,
+                                              '${applicationBloc.searchResult[index].placeName} (${applicationBloc.searchResult[index].placeCountry})',
                                               style: TextStyle(
-                                                  color: Colors.white,
-                                                  fontFamily: 'Raleway'),
+                                                color: Colors.white,
+                                              ),
                                             ),
                                             onTap: () async {
                                               setState(() {
@@ -161,7 +181,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           )
                         : Column(children: [
                             SizedBox(
-                              height: 30,
+                              height: 10,
                             ),
                             WeatherResultsArea(
                               selectedCity: selectedCity,

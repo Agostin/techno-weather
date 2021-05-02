@@ -15,8 +15,6 @@ class CurrentWeatherWidget extends StatelessWidget {
     final WeatherMainInfo mainInfo = this.groupedInfo?.main;
     final List<WeatherRecord> weatherDetails = this.groupedInfo.weather;
 
-    print('location: ${this.location}');
-
     return Container(
         padding: EdgeInsets.symmetric(vertical: 20),
         width: size.width,
@@ -34,17 +32,16 @@ class CurrentWeatherWidget extends StatelessWidget {
                           padding: EdgeInsets.only(left: 5, top: 20),
                           child: Text(
                             'Il meteo di:',
-                            style:
-                                TextStyle(fontSize: 16, fontFamily: 'Raleway'),
+                            style: TextStyle(fontSize: 16),
                           )),
                       Container(
                           padding: EdgeInsets.only(left: 5, bottom: 20),
                           child: Text(
                             this.location.toUpperCase(),
                             style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24,
-                                fontFamily: 'Raleway'),
+                              fontWeight: FontWeight.bold,
+                              fontSize: 24,
+                            ),
                           ))
                     ],
                   ),
@@ -69,14 +66,14 @@ class CurrentWeatherWidget extends StatelessWidget {
                             child: Text(
                           '${mainInfo.temp}°C',
                           style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 42,
-                              fontFamily: 'Raleway'),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 42,
+                          ),
                         )),
                         Container(
                             child: Text(
                           weatherDetails[0].description,
-                          style: TextStyle(fontSize: 16, fontFamily: 'Raleway'),
+                          style: TextStyle(fontSize: 16),
                         )),
                       ],
                     )),
