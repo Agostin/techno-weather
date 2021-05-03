@@ -33,7 +33,7 @@ class _WeatherScreenState extends State<WeatherScreen> {
 
   void _handleFocusChange() {
     if (_node.hasFocus) {
-      searchParam = '';
+      searchParam = null;
       locationHasBeenSelectd = false;
     }
   }
@@ -103,16 +103,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
                           onChanged: (value) {
                             setState(() {
                               searchParam = value;
-                              if (searchParam.length >= 2) {
-                                applicationBloc.searchPlaces(searchParam);
-                              }
+                              applicationBloc.searchPlaces(searchParam);
                             });
                           },
                         )),
                     SizedBox(
                       height: 10,
                     ),
-                    !locationHasBeenSelectd
+                    searchParam != null && !locationHasBeenSelectd
                         ? Stack(
                             children: [
                               Container(
